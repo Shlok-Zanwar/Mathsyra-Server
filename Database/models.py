@@ -4,7 +4,7 @@ from Database.database import Base
 
 # Login ---- sign-up Check
 class User(Base):
-    __tablename__ = 'users'
+    __tablename__ = 'Users'
 
     id = Column(Integer, primary_key=True, index=True, nullable=False)
     username = Column(String, unique=True)
@@ -17,7 +17,7 @@ class User(Base):
 
 # Verify ---- Signup --- login
 class UserSignUp(Base):
-    __tablename__ = 'users_sign_up'
+    __tablename__ = 'UsersSignUp'
 
     id = Column(Integer, primary_key=True, index=True, nullable=False)
     name = Column(String)

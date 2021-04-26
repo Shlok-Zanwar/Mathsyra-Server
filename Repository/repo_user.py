@@ -3,36 +3,7 @@ from sqlalchemy.orm import Session
 import datetime
 from Database import models
 from Repository import hashing
-from .send_mail import send_otp
-
-
-# def checkPassword():
-#     return "hii"
-#
-#
-# def checkLogin(request, db: Session):
-#     email = db.query(models.User).filter(models.User.email == request.username).first()
-#     if not email:
-#         username = db.query(models.User).filter(models.UserSignUp.email == request.username).first()
-#         if not username:
-#             signUpEmail = db.query(models.UserSignUp).filter(models.UserSignUp.email == email).first()
-#             if not signUpEmail:
-#                 signUpUsername = db.query(models.UserSignUp).filter(models.UserSignUp.username == username).first()
-#                 if not signUpUsername:
-#                     pass
-#                     # Account doesnot exist ---- redirect too signup
-#
-#                 # Redirect to /verify and send OTP
-#
-#             # Redirect to /verify and send OTP
-#
-#         if checkPassword():
-#
-#     if checkPassword():
-#
-#
-# def login():
-#     print("logged in")
+from Repository.send_mail import send_otp
 
 
 def checkEmailExist(email, db: Session):
