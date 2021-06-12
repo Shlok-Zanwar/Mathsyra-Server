@@ -1,10 +1,13 @@
+import sys
+
 from fastapi import APIRouter, Depends, Request
 from sqlalchemy.orm import Session
 from Database import database, models
-from Repository import repo_user, hashing, token, OAuth2
+from Repository import repo_user, hashing, token, OAuth2, content_functions
 from Router import schemas
 from fastapi import HTTPException, status
 import json
+import time
 
 
 router = APIRouter(
@@ -119,24 +122,86 @@ def verify_user(request: schemas.VerifyUser, db: Session = Depends(get_db)):
 
 
 @router.get('/vedic-maths')
-def vedicMaths(request: Request):
+def vedicMaths(request: Request,  db: Session = Depends(get_db)):
+    # content_functions.getAllBlogsName("vedic_maths", db)
 
     # print("hiiii")
+    # id = OAuth2.get_current_user(request.headers['token'])
+    return content_functions.getAllBlogsAndQuizes("vedic_maths", db)
+
+
+questions = [
+        {
+            "questionID": "Q1",
+            "question": "What is my fav color ?",
+            "options": ["Red", "Black", "Orange", "Blue"],
+            "type": "mcq",
+            "difficulty": "easy",
+            "answered": ""
+        },
+        {
+            "questionID": "Q2",
+            "question": "What is my fav color ?",
+            "options": ["Red", "Black", "PINK", "Blue"],
+            "type": "mcq",
+            "difficulty": "easy",
+            "answered": ""
+        }
+    ]
+
+
+@router.get('/course')
+def getCourse(
+        request: Request,
+        contentUrl: str,
+        db: Session = Depends(get_db)
+):
+    time.sleep(2)
     id = OAuth2.get_current_user(request.headers['token'])
-    return vedic['vedic_maths']
+    return content_functions.getBlog(contentUrl, db)
 
 
-@router.get('/{user_id}', response_model=schemas.ShowUser)
-def get_user(user_id: int, db: Session = Depends(get_db)):
-    return repo_user.getOneSignUp(user_id, db)
+@router.get('/questions')
+def getQuestions(
+    request: Request,
+    contentUrl: str,
+    db: Session = Depends(get_db)
+):
+    time.sleep(2)
+    id = OAuth2.get_current_user(request.headers['token'])
+    return content_functions.getQuiz(contentUrl, db)
+
+import json
+@router.get('/testing')
+def testing(request: Request):
+    # time.sleep(2)
+    # print(request.headers['token'])
+    id = OAuth2.get_current_user(request.headers['token'])
+    try:
+        # print("Opeing")
+        file = open("Router/Blog.json", 'r+')
+        data = json.load(file)
+        # print(file)
+        # return shlok
+        return ({"blogDetail": json.dumps(data)})
+    except:
+        e = sys.exc_info()[0]
+        print(e)
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+    # return questions
+
+
+# @router.get('/{user_id}', response_model=schemas.ShowUser)
+# def get_user(user_id: int, db: Session = Depends(get_db)):
+#     return repo_user.getOneSignUp(user_id, db)
 
 
 
 
 
-@router.get('/resend-otp/{user_id}')
-def resend_otp_user(user_id: int, db: Session = Depends(get_db)):
-    return repo_user.resendOTPUser(user_id, db)
+# @router.get('/resend-otp/{user_id}')
+# def resend_otp_user(user_id: int, db: Session = Depends(get_db)):
+#     return repo_user.resendOTPUser(user_id, db)
 
 
 

@@ -26,3 +26,24 @@ class UserSignUp(Base):
     password = Column(String)
     verification = Column(JSON)
 
+
+
+class QuizContent(Base):
+    __tablename__ = 'QuizContent'
+
+    id = Column(Integer, primary_key=True, index=True, nullable=False)
+    course = Column(String)
+    name = Column(String)
+    url = Column(String)
+    filename = Column(String)
+
+
+
+class BlogContent(Base):
+    __tablename__ = 'BlogContent'
+
+    id = Column(Integer, primary_key=True, index=True, nullable=False)
+    course = Column(String)
+    name = Column(String)
+    url = Column(String)
+    filename = Column(String)
